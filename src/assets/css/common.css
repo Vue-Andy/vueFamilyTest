@@ -1,0 +1,14 @@
+.fl{float:left;}
+.cf{clear:both;}
+.bs{box-sizing: border-box;}
+button{height:30px;line-height:30px;font-size:18px;color:#fff;background:green;border-radius:5px;outline: none;border:none;margin:5px;
+    cursor:pointer;padding:0 10px;}
+a{height:30px;line-height:30px;font-size:18px;background:#999;text-decoration: none;border-radius: 5px;}
+.clearfix :after{
+    content:'.';
+    display:block;
+    clear:both;
+    visibility: hidden;
+    height:0;
+}
+div.title{color:red;font-size:20px;}
