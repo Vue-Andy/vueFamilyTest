@@ -1,8 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import HelloWorld from '@/components/HelloWorld/HelloWorld'
+
 import HelloTime from '@/components/HelloTime/HelloTime'
+
 import HelloChina from '@/components/HelloChina/HelloChina'
+
+import Father from '@/components/FatherSonCommunication/Father'
+
+import VueResource from '@/components/request/VueResource'
+import Axios from '@/components/request/Axios'
+import Fetch from '@/components/request/Fetch'
+import Vuex from '@/components/vuex/Vuex'
+
 import HelloTimeSon1 from '@/components/HelloTime/HelloTimeSon/HelloTimeSon1'
 import HelloTimeSon2 from '@/components/HelloTime/HelloTimeSon/HelloTimeSon2'
 Vue.use(Router)
@@ -14,12 +25,11 @@ export default new Router({
       path: '/',
       component: HelloWorld
       // redirect: '/helloworld'
-    },
-    {
+    }, {
       path: '/helloworld/:userId/:storage',
       name: 'HelloWorld',
       component: HelloWorld
-    },
+    }, 
     // 如果路由有子集路由且有默认路由，父级路由就不能用name，且其他地方通过name跳转到父级路由只能填写默认子集路由的name
     {
       path: '/hellotime',
@@ -40,11 +50,30 @@ export default new Router({
           component:HelloTimeSon2
         }
       ],
-    },
-    {
+    }, {
       path: '/hellochina',
       name: 'HelloChina',
       component: HelloChina
+    }, {
+      path:'/father',
+      name:'Father',
+      component:Father
+    }, {
+      path:'/vueResource',
+      name:'VueResource',
+      component:VueResource
+    }, {
+      path:'/axios',
+      name:'Axios',
+      component:Axios
+    }, {
+      path:'/fetch',
+      name:'Fetch',
+      component:Fetch
+    }, {
+      path:'/vuex',
+      name:'Vuex',
+      component:Vuex
     }
   ]
 })

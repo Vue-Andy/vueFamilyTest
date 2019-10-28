@@ -5,10 +5,6 @@
       <router-view />
       <div class="inner">
         <h4 v-title>我是APP.vue里router-view的兄弟元素</h4>
-        <h5>以下是通过axios请求过来的todos</h5>
-        <div class="todos">
-          <span v-for="todo in todos" :key="todo.id">{{todo.title}}</span>
-        </div>
       </div>
     </div>
     <footer class='cf'>Footer</footer>
@@ -29,18 +25,6 @@ export default {
     headerCom
   },
   mounted() {
-    var _this = this;
-    _this.$axios.get("http://jsonplaceholder.typicode.com/todos", {
-      params: {
-        userId: 1
-      }
-    })
-    .then(data => {
-      _this.todos = data.data;
-    })
-    .catch(err => {
-      console.log(err);
-    });
   }
 };
 </script>
@@ -72,7 +56,7 @@ export default {
   float: left;
   background: darkgray;
 }
-p.desc{
+.desc{
   color:#999;
   font-size: 14px;
 }
@@ -95,5 +79,16 @@ footer{
   color:#fff;
   position:fixed;
   bottom:0;
+}
+.left{
+  width:50%;
+  float:left;
+  box-sizing: border-box;
+}
+
+.right{
+  width:50%;
+  float:right;
+  box-sizing: border-box;
 }
 </style>

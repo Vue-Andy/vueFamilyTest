@@ -7,6 +7,11 @@
     <router-link :to="{path:'/helloworld/1/10'}">HelloWorld</router-link>
     <router-link :to="{path:'/hellotimeson1'}">hellotimeson1</router-link>
     <router-link :to="{path:'/hellochina'}">hellochina</router-link>
+    <router-link :to="{path:'/father'}">Father</router-link>
+    <router-link :to="{path:'/vueResource'}">vueResource</router-link>
+    <router-link :to="{path:'/axios'}">axios</router-link>
+    <router-link :to="{path:'/fetch'}">fetch</router-link>
+    <router-link :to="{path:'/vuex'}">vuex</router-link>
     <table class="cf"></table>
   </header>
 </template>
@@ -32,6 +37,7 @@ export default {
   box-sizing: border-box;
   position:fixed;
   top:0;
+  text-align: center;
 }
 .router-link-active{
   color:aquamarine;

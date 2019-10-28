@@ -5,7 +5,7 @@
     <div>
         <router-link :to='{path:"/hellotimeson2"}'>go hellotimeson2 component</router-link>
     </div>
-    <button>vuex store里的son组件的sonData为：{{$store.state.sonStore.sonData}}</button>
+    <!-- <button>vuex store里的son组件的sonData为：{{$store.state.sonStore.sonData}}</button> -->
     <button @click='changeData'>修改store里son组件的sonData</button>
     <div class="float  clearfix">
       <div class="left">此处文本浮动，父元素需要清除浮动</div>

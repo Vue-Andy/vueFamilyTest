@@ -18,10 +18,10 @@ var store = new vuex.Store({
   },
   mutations: {
     mergeData(state) {
-      state.son2Store.mergeData = state.sonStore.sonData + ' ' + state.son2Store.son2Data
+      state.son2Store.mergeData = state.son1Store.sonData + ' ' + state.son2Store.son2Data
     },
     mergeNum(state) {
-      state.sonStore.totalNum = state.sonStore.sonNum + state.son2Store.son2Num
+      state.son1Store.totalNum = state.son1Store.sonNum + state.son2Store.son2Num
     }
   },
   actions: {

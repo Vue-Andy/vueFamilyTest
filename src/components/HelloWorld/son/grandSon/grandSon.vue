@@ -1,14 +1,15 @@
 <template>
   <div class="grandSon bs">
-    <div class="title" v-title>{{msg}}</div>
+    <div class="title" v-title>this is grandSon component</div>
+    <div class="desc">此组件只总结slot相关知识</div>
     <h3>slot 示例！</h3>
     <div>
-      <slot name="boy" say="我是作用域插槽" bye="byebye"></slot>
+      <slot name="boy" say="我是作用域插槽" bye="byebye" :list="list"></slot>
     </div>
     <div>
       <slot name="girl"></slot>
     </div>
-    <slot></slot>
+    <slot sex="male">默认插槽</slot>
     <child :lists="nameList">
       <template slot-scope="a">{{a.bbbbb.name}}</template>
     </child>
@@ -22,21 +23,25 @@ Vue.component("child", {
   props: ["lists"],
   template: `
     <div class='tem'>
-        <ul>
-            <li v-for="list in lists">
-                <slot :bbbbb="list"></slot>
-            </li>
-        </ul>
+      <ul>
+        <li v-for="list in lists">
+          <slot :bbbbb="list"></slot>
+        </li>
+      </ul>
     </div>
   `
 });
 export default {
-  props: ["par"],
   name: "son",
   data() {
     return {
-      msg: "this is son's son component",
+      msg: "",
       initNum: 0,
+      list: [
+        { id: "l1", text: "刘备" },
+        { id: "l2", text: "关羽" },
+        { id: "l3", text: "张飞" }
+      ],
       nameList: [
         { id: 1, name: "孙悟空" },
         { id: 2, name: "猪八戒" },
