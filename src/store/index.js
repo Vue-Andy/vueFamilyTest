@@ -9,26 +9,26 @@ Vue.use(vuex)
 }) */
 // 如果操作多个页面的状态，则需要用到modules，如下:
 // 首先引入需要的store对象
-import sonStore from './son'
-import greatSonStore from './greatSon'
+import son1Store from './son1'
+import son2Store from './son2'
 var store = new vuex.Store({
-    modules: {
-        sonStore,
-        greatSonStore
+  modules: {
+    son1Store,
+    son2Store
+  },
+  mutations: {
+    mergeData(state) {
+      state.son2Store.mergeData = state.sonStore.sonData + ' ' + state.son2Store.son2Data
     },
-    mutations:{
-        mergeData(state){
-            state.greatSonStore.mergeData = state.sonStore.sonData + ' ' +state.greatSonStore.greatSonData
-        },
-        mergeNum(state){
-            state.sonStore.totalNum = state.sonStore.sonNum + state.greatSonStore.greatSonNum
-        }
-    },
-    actions:{
-        mergeAll(context){
-            context.commit('mergeData')
-            context.commit('mergeNum')
-        }
+    mergeNum(state) {
+      state.sonStore.totalNum = state.sonStore.sonNum + state.son2Store.son2Num
     }
+  },
+  actions: {
+    mergeAll(context) {
+      context.commit('mergeData')
+      context.commit('mergeNum')
+    }
+  }
 })
 export default store

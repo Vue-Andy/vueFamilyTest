@@ -6,38 +6,40 @@ import HelloChina from '@/components/HelloChina/HelloChina'
 import HelloTimeSon1 from '@/components/HelloTime/HelloTimeSon/HelloTimeSon1'
 import HelloTimeSon2 from '@/components/HelloTime/HelloTimeSon/HelloTimeSon2'
 Vue.use(Router)
-import Promise from "promise-polyfill";   // vue 中fetch的使用
-if(!window.Promise){
-  window.Promise = Promise;
-}
+
 export default new Router({
   mode:'history',
   routes: [
     {
       path: '/',
-      // name: 'HelloWorld',
       component: HelloWorld
+      // redirect: '/helloworld'
     },
     {
       path: '/helloworld/:userId/:storage',
       name: 'HelloWorld',
       component: HelloWorld
     },
+    // 如果路由有子集路由且有默认路由，父级路由就不能用name，且其他地方通过name跳转到父级路由只能填写默认子集路由的name
     {
       path: '/hellotime',
-      name: 'HelloTime',
       component: HelloTime,
       children:[
         {
+          path:'/',
+          redirect:'/helloTimeSon1'
+        },
+        {
           path:'/helloTimeSon1',
+          name:'HelloTimeSon1',
           component:HelloTimeSon1
         },
         {
           path:'/helloTimeSon2',
+          name:'HelloTimeSon2',
           component:HelloTimeSon2
         }
       ],
-      redirect:'/helloTimeSon1'
     },
     {
       path: '/hellochina',

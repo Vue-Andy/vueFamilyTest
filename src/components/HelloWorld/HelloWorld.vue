@@ -1,43 +1,61 @@
 <template>
   <div class="hello bs fl">
-    <div class='title'>this is father(HelloWorld) component</div>
-    <div v-if='num'>方式一$emit：从son组件传来的数据为{{num}}</div>
-    <div v-if='msg1'>方式二$parent.$emit：从son组件传来的数据为{{msg1}}</div>
-    <div v-if='msg2'>方式三$parent.事件名：从son组件传来的数据为{{msg2}}</div>
-    <button @click='changeGreatSon'>$children修改greatSon的值</button>
+    <div class='title' v-title>HelloWorld组件</div>
+    <p class="desc">此组件只总结页面跳转的各种方式</p>
+    <div class="link">
+      <span>1.方法跳转 - path配query</span>  <button @click='goChina1'>HelloChina</button>
+    </div>
+    <div class="link">
+      <span>2.方法跳转 - path配params</span>  <button @click='goChina2'>HelloChina</button><!--这种方式不能传参-->
+    </div>
+    <div class="link">
+      <span>3.方法跳转 - name配query</span>  <button @click='goChina3'>HelloChina</button>
+    </div>
+    <div class="link">
+      <span>4.方法跳转 - name配params</span> <button @click='goChina4'>HelloChina</button>
+    </div>
+    <div class="link">
+      <span>5.router-link - path配query</span> <router-link :to='{path:"/hellotime",query:{id:"1"}}'>HelloTime</router-link>
+    </div>
+    <div class="link">
+      <span>6.router-link - path配params</span> <router-link :to='{path:"/hellotime",params:{id:"2"}}'>HelloTime</router-link><!--这种方式不能传参-->
+    </div>
+    <div class="link">
+      <span>7.router-link - name配query</span> <router-link :to='{name:"HelloTimeSon1",query:{id:"3",sex:"gender"}}'>HelloTime</router-link>
+    </div>
+    <div class="link">
+      <span>8.router-link - name配params</span> <router-link :to='{name:"HelloTimeSon1",params:{id:"4"}}'>HelloTime</router-link>
+    </div>
+    
+    <div v-if='num'>子传父方式一$emit：{{num}}</div>
+    <div v-if='msg1'>子传父方式二$parent.$emit：{{msg1}}</div>
+    <div v-if='msg2'>子传父方式三$parent.事件名：{{msg2}}</div>
+    <button @click='changeson2'>$children修改son2的值</button>
     <hr>
-    <son par='msgFromFather--HELLOWORLD' @handleSon='handle'>
+    <son1 par='msgFromFather--HELLOWORLD' @handleSon='handle'>
       <template slot='firstSlot'>
         第一个slot
       </template>
       <template slot='secondSlot'>
         第二个slot
       </template>
-    </son>
-    <greatSon ref='greatSon'></greatSon>
+    </son1>
+    <son2 ref='son2'></son2>
     <hr/>
-    <button @click='goChina1'>方法跳转 - path配query - 去HelloChina组件</button>
-    <button @click='goChina2'>方法跳转 - path配params - 去HelloChina组件</button> <!--这种方式不能传参-->
-    <button @click='goChina3'>方法跳转 - name配query - 去HelloChina组件</button>
-    <button @click='goChina4'>方法跳转 - name配params - 去HelloChina组件</button><br/>
-
-    <router-link :to='{path:"/hellotime",query:{id:"1"}}'>router-link - path配query - 去HelloTime组件</router-link>
-    <router-link :to='{path:"/hellotime",params:{id:"2"}}'>router-link - path配params - 去HelloTime组件</router-link> <!--这种方式不能传参-->
-    <router-link :to='{name:"HelloTime",query:{id:"3",sex:"gender"}}'>router-link - name配query - 去HelloTime组件</router-link>
-    <router-link :to='{name:"HelloTime",params:{id:"4"}}'>router-link - name配params - 去HelloTime组件</router-link>
+    
     <hr>
     <button @click='getData'>获取store里的son组件的sonData</button>
-    <button @click='getMergeData'>获取融合后的sonData和greatSonData</button>
+    <button @click='getMergeData'>获取融合后的sonData和son2Data</button>
     <div v-if='mergeData'>{{mergeData}}</div>
-    <button @click='getTotalNum'>获取相加之后的sonNum和greatSonNum</button>
+    <button @click='getTotalNum'>获取相加之后的sonNum和son2Num</button>
     <div v-if='totalNum'>{{totalNum}}</div>
     <button @click='mergeAll'>Actions一键触发融合和相加</button>
   </div>
 </template>
 
 <script>
-import son from './son/son'
-import greatSon from './son/greatSon'
+import son1 from './son/son1'
+import son2 from './son/son2'
 export default {
   name: 'HelloWorld',
   data () {
@@ -50,7 +68,7 @@ export default {
       msg2:''
     }
   },
-  components:{son,greatSon},
+  components:{son1,son2},
   mounted(){
     var a = this.$route.params.userId,b=this.$router.currentRoute.params.userId;
     if(a){
@@ -70,10 +88,10 @@ export default {
     handle(msg){
       this.num = msg
     },
-    changeGreatSon(){
-      console.log(this.$refs.greatSon)
+    changeson2(){
+      console.log(this.$refs.son2)
       /********* 以下两种方式都可以让父组件获取到子组件的实例(属性和方法都可以获取到) *********/
-      // this.$refs.greatSon.changeTxt()
+      // this.$refs.son2.changeTxt()
       this.$children[1].changeTxt()
     },
     handleSon(msg){
@@ -120,7 +138,7 @@ export default {
     },
     getMergeData(){
       this.$store.commit('mergeData')
-      this.mergeData = this.$store.state.greatSonStore.mergeData
+      this.mergeData = this.$store.state.son2Store.mergeData
     },
     getTotalNum(){
       this.$store.commit('mergeNum')
@@ -128,7 +146,7 @@ export default {
     },
     mergeAll(){
       this.$store.dispatch('mergeAll')
-      this.mergeData = this.$store.state.greatSonStore.mergeData
+      this.mergeData = this.$store.state.son2Store.mergeData
       this.totalNum = this.$store.state.sonStore.totalNum
     }
   }
@@ -137,4 +155,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .hello{width:100%;background:#fff;padding:20px;border:2px solid red;}
+.link > span{
+  display:inline-block;
+  width:300px;
+  text-align: left;
+  font-size: 16px;
+  color:#333;
+}
 </style>

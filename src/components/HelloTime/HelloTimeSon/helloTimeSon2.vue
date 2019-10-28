@@ -1,6 +1,6 @@
 <template>
   <div class="helloTimeSon2 bs">
-    <div class='title'>I am helloTimeSon2 component</div>
+    <div class='title' v-title>I am helloTimeSon2 component</div>
     <hr>
     <router-link :to='{path:"/hellotimeson1"}'>go hellotimeson1 component</router-link>
     <br>

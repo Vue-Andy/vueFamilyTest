@@ -20,14 +20,14 @@ src:
 			son
 				grandSon
 					grandSon.vue
-				greatSon.vue
+				son2.vue
 				son.vue
 			HelloWorld.vue
 		header.vue
 	router:
 		index.js     --------------------   路由文件
 	store:
-		greatSon
+		son2
 			index.js --------------------
 		son
 			index.js --------------------

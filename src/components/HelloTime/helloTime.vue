@@ -1,6 +1,6 @@
 <template>
   <div class="helloTime bs">
-    <div>this is helloTime component</div>
+    <div v-title>this is helloTime component</div>
     <div v-if='num'>{{num}}</div>
     <hr>
     <div>
