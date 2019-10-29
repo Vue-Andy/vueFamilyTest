@@ -24,8 +24,9 @@
     </div>
     <div class="cf">
       <son1></son1>
-      <son2 ref='son2'></son2>
+      <son2></son2>
     </div>
+    <button @click='changeIsShow'>修改isShow</button>
   </div>
 </template>
 
@@ -52,6 +53,9 @@ export default {
     }
   },
   methods:{
+    changeIsShow() {
+      this.$store.state.isShow = !this.$store.state.isShow
+    },
     goChina1(){
       this.$router.push({
         path:'/helloChina',

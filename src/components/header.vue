@@ -3,7 +3,7 @@
     <div class="logo fl">
       <img src="../assets/logo.png" width="60" alt />
     </div>
-    <div v-title>活在当下有限公司</div>
+    <div v-title>XXXX有限公司</div>
     <router-link :to="{path:'/helloworld/1/10'}">HelloWorld</router-link>
     <router-link :to="{path:'/hellotimeson1'}">hellotimeson1</router-link>
     <router-link :to="{path:'/hellochina'}">hellochina</router-link>

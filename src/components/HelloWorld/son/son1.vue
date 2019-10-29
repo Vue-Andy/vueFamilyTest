@@ -3,7 +3,6 @@
     <div v-title>this is son1 component</div>
     <div class="desc">此组件只总结兄弟组件通信的相关知识</div>
     <div>{{initNum}}</div>
-    <button @click="getData">修改store里的globalData为4</button>
     <button @click="toBrother">click me-兄弟组件通信!</button>
     <grandSon>
       <template slot="boy" slot-scope="obj">
@@ -34,10 +33,6 @@ export default {
     toBrother() {
       this.initNum++;
       Bus.$emit("bro", this.initNum);
-    },
-    getData() {
-      this.$store.state.globalData = 4;
-      console.log(this.$store.state)
     }
   },
   components: { grandSon }

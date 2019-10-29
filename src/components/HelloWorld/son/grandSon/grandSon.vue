@@ -14,7 +14,6 @@
       <template slot-scope="a">{{a.bbbbb.name}}</template>
     </child>
     <table class="cf"></table>
-    <button class="cb" @click="getData">修改store里的globalData为2</button>
   </div>
 </template>
 <script>
@@ -52,9 +51,6 @@ export default {
     };
   },
   methods: {
-    getData() {
-      this.$store.state.globalData = 2;
-    }
   }
 };
 </script>

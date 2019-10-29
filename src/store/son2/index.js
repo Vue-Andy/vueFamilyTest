@@ -5,7 +5,7 @@ var store = new vuex.Store({
     state: {
       son2Data:'I am son2 state\'s data',
       isLogout:true,
-      mergeData:'',
+      mergeData:'222',
       son2Num: 756
     }
 })
