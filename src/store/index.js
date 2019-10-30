@@ -1,48 +1,32 @@
 import Vue from 'vue'
 import vuex from 'vuex'
+
+import login from './modules/login'
+import data from './modules/data'
+
 Vue.use(vuex)
 // 如果只是操作一个页面的状态，只需要state就可以了，如下
 var store = new vuex.Store({
+  modules: {
+    login,
+    data
+  },
   state: {
-    globalData:0,
-    isShow:false,
-    num1:12,
-    num2:10,
-    scores:[{
-      name:'张三', score: 98,
-    }, {
-      name:'李四', score: 70,
-    }, {
-      name:'王五', score: 80,
-    }, {
-      name:'赵六', score: 56,
-    }],
-    // 测试mutation的登录数据
-    username:'pzh',
-    token:'sern002115dfdf02512dfe2',
-    cart:[{cargoName:'洗衣机'}],
-    login:true
+    globalNum1: 101,
+    globalNum2: 355
   },
   getters:{
-    getPassedScore: state => {
-      return state.scores.filter( score => score.score >= 60)
-    },
-    // getter也可以接受其他 getter 作为第二个参数
-    passedStudentsCount: (state,getters) => {
-      return getters.getPassedScore.length
-    },
-    // 也可以通过让 getter 返回一个函数，来实现给 getter 传参
-    getSomeScoreCount: (state) => (score) => {
-      return state.scores.filter( item => item.score >= score ).length
+    mergeGlobalNum(state) {
+      console.log(state)   // 全局状态对象包含了局部状态对象
+      return state.globalNum1 + state.globalNum2
     }
   },
   mutations:{
-    logout(state){
-      state.username = '游客'
-      state.token = ''
-      state.cart = []
-      state.login = false
-    }
+    
+    
+  },
+  actions:{
+    
   }
 })
 // 如果操作多个页面的状态，则需要用到modules，如下:

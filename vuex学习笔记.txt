@@ -1,0 +1,171 @@
+######### vuex 学习笔记
+一、单个index.js里包含state,getters,mutations,actions的写法
+  #####  store/index.js
+  import Vue from 'vue'
+  import vuex from 'vuex'
+  Vue.use(vuex)
+  var store = new vuex.Store({
+    state: {
+      globalData:0,
+      isShow:false,
+      num1:12,
+      num2:10,
+      scores:[{
+        name:'张三', score: 98,
+      }, {
+        name:'李四', score: 70,
+      }, {
+        name:'王五', score: 80,
+      }, {
+        name:'赵六', score: 56,
+      }],
+      // 测试mutation的登录数据
+      username:'pzh',
+      token:'sern002115dfdf02512dfe2',
+      cart:[{cargoName:'洗衣机'}],
+      login:true
+    },
+    getters:{
+      getPassedScore: state => {
+        return state.scores.filter( score => score.score >= 60)
+      },
+      // getter也可以接受其他 getter 作为第二个参数
+      passedStudentsCount: (state,getters) => {
+        return getters.getPassedScore.length
+      },
+      // 也可以通过让 getter 返回一个函数，来实现给 getter 传参
+      getSomeScoreCount: (state) => (score) => {
+        return state.scores.filter( item => item.score >= score ).length
+      }
+    },
+    mutations:{
+      resetData(state) {
+        state.globalData = 100
+        state.isShow = true
+        state.num1 = 35
+        state.num2 = 25
+      },
+      logout(state){
+        state.username = '游客'
+        state.token = ''
+        state.cart = []
+        state.login = false
+      }
+    },
+    actions:{
+      logoutAndReset({commit}) {
+        commit('logout')
+        commit({
+          type:'resetData'
+        }) 
+      }
+    } 
+  })
+
+  export default store
+
+  #####  vuex.vue
+  <template>
+    <div>
+      <div v-title>vuex 组件</div>
+      <div class="desc">此组件总结state和getter</div>
+      <span>{{globalData}}--{{isShow}}--{{totalNum}}</span>
+      <ul>
+        <li v-for='(item,index) in getPassedScore' :key='index'>{{item.name}}--{{item.score}}</li>
+      </ul>
+      <div>总及格人数为：{{passedStudentsCount}}</div>
+      <div>超过80分的人数为：{{passed80Count}}</div>
+      <div>超过90分的人数为：{{passed90Count}}</div>
+      <button @click='addStudent'>点击添加一个85分的学生</button>
+      <div style='border:1px solid #333;'>
+        <div>{{username}}</div>
+        <div>{{token ? token : '退出登录后就没有token了'}}</div>
+        <div>{{cart[0] ? cart[0].cargoName : '购物车空空如也'}}</div>
+        <div>isLogin:{{login?'yes':'no'}}</div>
+      </div>
+      <button @click='logout'>退出登录</button>
+      <button @click='logoutAndReset'>一键退出并重置数据</button>
+    </div>
+  </template>
+
+<script>
+import {mapState, mapGetters,mapMutations,mapActions} from 'vuex';
+export default {
+  name: "Vuex",
+  data () {
+    return { };
+  },
+  // 当映射的计算属性的名称与 state 的子节点名称相同时，我们也可以给 mapState 传一个字符串数组
+  // computed:mapState(['globalData','isShow'])
+  /* computed:mapState({
+    // 等同于 `state => state.globalData`
+    globalData:'globalData',isShow:'isShow'
+  }) */
+  /* computed:mapState({
+    // 箭头函数可使代码更简练，如果不需要自定义变量名，可以使用字符串的形式 
+    globalData: state => state.globalData,
+    isShow:state => state.isShow
+  })  */
+  /* computed:{
+    ...mapState(['globalData','isShow'])
+  } */
+  /* computed:{
+    ...mapState({globalData:'globalData',isShow:'isShow'})
+  } */
+  computed:{
+    // 如果要与局部计算属性一起使用,则要在外层包裹一个对象
+    anotherComputed() {/* ... */},
+    // 可以写多个...mapState
+    ...mapState({
+      // 如果一个状态要使用多个状态，使用函数，注：为了能够使用 `this` 获取局部状态，必须使用常规函数
+      totalNum(state) {
+        return state.data.num1 + state.data.num2
+      }
+    }),
+    ...mapState(['globalData','isShow','username','token','cart','login']),
+    ...mapGetters(['getPassedScore','passedStudentsCount']),   //  不需要另起名字的可以直接数组保存字符串的形式
+    // ...mapGetters({getPassedScore:'getPassedScore',passedStudentsCount:'passedStudentsCount'}),  // 另取名字，需要使用对象的形式，对于需要传参的，只能当成局部计算属性
+    /* 
+      // 获取getter
+      getPassedScore() {
+        return this.$store.getters.getPassedScore
+      },
+      // getter接受其他getter作为第二个参数
+      passedStudentsCount() {
+        return this.$store.getters.passedStudentsCount
+      }, 
+    */
+    // getter通过返回一个函数实现给getter传参
+    passed80Count() {
+      return this.$store.getters.getSomeScoreCount(80)
+    },
+    passed90Count() {
+      return this.$store.getters.getSomeScoreCount(90)
+    } 
+  },
+  components: {},
+
+  methods: {
+    /* logout() {
+      this.$store.commit('logout',{})  // 或者  this.$store.commit({type:'logout', param:'...'})
+    }, */
+    ...mapMutations(['logout']),  // 或者： ...mapMutations({lout:'logout})
+    ...mapActions({  // 或者：  ...mapActions(['logoutAndReset']),
+      logoutAndReset:'logoutAndReset'  // 可重命名
+    }),
+    addStudent() {
+      this.$store.state.scores.push({name:'钱七', score:85})
+    }
+  },
+
+  created() {},
+
+  mounted() {}
+
+}
+
+</script>
+
+<style scoped>
+</style>
+

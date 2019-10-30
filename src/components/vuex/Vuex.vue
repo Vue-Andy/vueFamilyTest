@@ -2,133 +2,120 @@
   <div>
     <div v-title>vuex 组件</div>
     <div class="desc">此组件总结state和getter</div>
-    <!-- <button @click='getData'>获取store里的son组件的sonData</button>
-    <div v-if='sonData'>{{sonData}}</div>
-    <button @click='getMergeData'>获取融合后的sonData和son2Data</button>
-    <div v-if='mergeData'>{{mergeData}}</div>
-    <button @click='getTotalNum'>获取相加之后的sonNum和son2Num</button>
-    <div v-if='totalNum'>{{totalNum}}</div>
-    <button @click='mergeAll'>Actions一键触发融合和相加</button>
-    <button @click="getData">修改store里的globalData为4</button>
-    <button @click="changeSonData">修改store里的son1Store里的sonData</button> -->
-    <span>{{globalData}}--{{isShow}}--{{totalNum}}</span>
+    <h3>既有局部状态又有全局状态时，获取局部状态：</h3>
+    <i>data.js：</i>
+    <div>{{globalData}}--{{isShow}}--{{totalNum}}</div>
+    <div>==========</div>
+    <div>
+      <i>login.js：</i>
+      <div>{{username}}</div>
+      <div>{{token ? token : '退出登录后就没有token了'}}</div>
+      <div>{{cart[0] ? cart[0].cargoName : '购物车空空如也'}}</div>
+      <div>isLogin:{{login?'yes':'no'}}</div>
+    </div>
+    <h3>既有局部状态又有全局状态时，获取全局状态：</h3>
+    <div>全局状态:{{globalNum1}}</div>
+
+    <hr><hr><hr>
+
+    <h3>既有局部getters又有全局getters时，获取局部getters：</h3>
+    <i>data.js：</i>
     <ul>
       <li v-for='(item,index) in getPassedScore' :key='index'>{{item.name}}--{{item.score}}</li>
     </ul>
     <div>总及格人数为：{{passedStudentsCount}}</div>
     <div>超过80分的人数为：{{passed80Count}}</div>
     <div>超过90分的人数为：{{passed90Count}}</div>
+    <div>==========</div>
+    <i>login.js：</i>
+    <div>{{getLoginNumTotal}}</div>
+    <h3>既有局部getters又有全局getters时，获取全局getters：</h3>
+    <div>{{mergeGlobalNum}}</div>
+
+    <hr><hr><hr>
+
     <button @click='addStudent'>点击添加一个85分的学生</button>
-    <div style='border:1px solid #333;'>
-      <div>{{username}}</div>
-      <div>{{token ? token : '退出登录后就没有token了'}}</div>
-      <div>{{cart[0] ? cart[0].cargoName : '购物车空空如也'}}</div>
-      <div>{{login}}</div>
-    </div>
     <button @click='logout'>退出登录</button>
+    <button @click='resetData'>重置数据</button>
+    <button @click='logoutAndReset'>一键退出并重置数据</button>
   </div>
 </template>
 
 <script>
-import {mapState, mapGetters,mapMutations} from 'vuex';
+import {mapState, mapGetters,mapMutations,mapActions} from 'vuex';
 export default {
   name: "Vuex",
   data () {
     return { };
   },
-  // 当映射的计算属性的名称与 state 的子节点名称相同时，我们也可以给 mapState 传一个字符串数组
-  // computed:mapState(['globalData','isShow'])
-  /* computed:mapState({
-    // 等同于 `state => state.globalData`
-    globalData:'globalData',isShow:'isShow'
-  }) */
-  /* computed:mapState({
-    // 箭头函数可使代码更简练，如果不需要自定义变量名，可以使用字符串的形式 
-    globalData: state => state.globalData,
-    isShow:state => state.isShow
-  })  */
-  /* computed:{
-    ...mapState(['globalData','isShow'])
-  } */
-  /* computed:{
-    ...mapState({globalData:'globalData',isShow:'isShow'})
-  } */
   computed:{
-    // 如果要与局部计算属性一起使用,则要在外层包裹一个对象
-    anotherComputed() {/* ... */},
-    // 可以写多个...mapState
+    // 此行的意思是可以在一个计算属性里获取多个局部或全局的数据，同时，也可以有多个...mapState
     ...mapState({
-      // globalData: state => state.globalData,
-      // isShow:state => state.isShow,
-      // 如果一个状态要使用多个状态，使用函数，注：为了能够使用 `this` 获取局部状态，必须使用常规函数
-      totalNum(state) {
-        return state.num1 + state.num2
-      },
-      // username:state => state.username,
-      // token:state => state.token,
-      // cart:state => state.cart,
-      // login:state => state.login
+      totalNum(state) {  
+        return state.data.num1 + state.data.num2
+      }
     }),
-    ...mapState(['globalData','isShow','username','token','cart','login']),
-    // ...mapGetters(['getPassedScore','passedStudentsCount']),   //  不需要另起名字的可以直接数组保存字符串的形式
-    ...mapGetters({getPassedScore:'getPassedScore',passedStudentsCount:'passedStudentsCount'}),  // 另取名字，需要使用对象的形式，对于需要传参的，只能当成局部计算属性
-    /* // 获取getter
-    getPassedScore() {
-      return this.$store.getters.getPassedScore
-    },
-    // getter接受其他getter作为第二个参数
-    passedStudentsCount() {
-      return this.$store.getters.passedStudentsCount
-    }, */
-    // getter通过返回一个函数实现给getter传参
-    passed80Count() {
-      return this.$store.getters.getSomeScoreCount(80)
-    },
-    passed90Count() {
-      return this.$store.getters.getSomeScoreCount(90)
+    ...mapState({
+      // 局部状态的获取
+      globalData: state => state.data.globalData,  // 相当于 this.$store.state.data.globalData
+      isShow: state => state.data.isShow,
+
+      username: state => state.login.username,
+      token: state => state.login.token,
+      cart: state => state.login.cart,
+      login: state => state.login.login,
+
+      // 全局状态的获取
+      globalNum1:(state)=> state.globalNum1,
+      
+      // 局部和全局getters的获取  注：通过输出的getters可知，不同module下的getter都被合并到了一起 
+      // 局部getters
+      getPassedScore: (state,getters) => getters.getPassedScore,   // 相当于 this.$store.getters.getPassedScore
+      passedStudentsCount:(state,getters) => getters.passedStudentsCount,
+      passed80Count:(state,getters) => getters.getSomeScoreCount(80),
+      passed90Count:(state,getters) => getters.getSomeScoreCount(90),
+      
+      getLoginNumTotal: (state,getters) => getters.getLoginNumTotal,
+      // 全局getters
+      mergeGlobalNum: (state,getters) => getters.mergeGlobalNum
+    }),
+    /* 
+    // 既有全局又有局部状态的时候，获取部状态的方式如下
+    globalData() {
+      return this.$store.state.data.globalData
     } 
+    // 既有全局又有局部状态的时候，获取全局状态的方式如下
+    globalNum1() { 
+      return this.$store.state.globlaNum1
+    },
+    // 既有局部getters又有全局getters时，获取局部getters的方式如下 
+    getLoginNumTotal() {
+      return this.$store.getters.getLoginNumTotal
+    },
+    // 既有局部getters又有全局getters时，获取全局getters的方式如下
+    mergeGlobalNum() {
+      return this.$store.getters.mergeGlobalNum
+    } 
+    */
   },
   components: {},
 
   methods: {
-    logout() {
-      this.$store.commit('logout',{})  // 或者  this.$store.commit({type:'logout', param:'...'})
-    },
-    // ...mapMutations(['logout']),  // ...mapMutations({lout:'logout})
-    /* getData(){
-      // 如果只是一个文件的状态，则按如下取值
-      // console.log(this.$store.state.globalData)
-      // 如果是多个文件的状态，则需要加上属于哪个文件的状态
-      this.sonData = this.$store.state.son1Store.sonData
-    }, */
+    // 局部mutations
+    ...mapMutations(['logout','resetData']),  // ...mapMutations({lout:'logout})
+    ...mapActions({  // 或者：  ...mapActions(['logoutAndReset']),
+      logoutAndReset:'logoutAndReset'  // 可重命名
+    }),
     addStudent() {
-      this.$store.state.scores.push({name:'钱七', score:85})
-    },
-    /* getMergeData(){
-      this.$store.commit('mergeData')
-      this.mergeData = this.$store.state.son2Store.mergeData
-    },
-    getTotalNum(){
-      this.$store.commit('mergeNum')
-      this.totalNum = this.$store.state.son1Store.totalNum
-    },
-    mergeAll(){
-      this.$store.dispatch('mergeAll')
-      this.mergeData = this.$store.state.son2Store.mergeData
-      this.totalNum = this.$store.state.son1Store.totalNum
-    },
-    getData() {
-      this.$store.state.globalData = 4;
-      console.log(this.$store.state)
-    },
-    changeSonData() {
-      this.$store.state.son1Store.sonData = '修改后的sonData值'
-    } */
+      this.$store.state.data.scores.push({name:'钱七', score:85})
+    }
   },
 
   created() {},
 
-  mounted() {}
+  mounted() {
+    console.log(this.$store)
+  }
 
 }
 
