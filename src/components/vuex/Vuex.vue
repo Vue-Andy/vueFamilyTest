@@ -33,10 +33,17 @@
     <div>{{mergeGlobalNum}}</div>
 
     <hr><hr><hr>
+    <h3>既有局部mutations又有全局mutations时，获取局部mutations：</h3>
+    <i>login.js：</i>
+    <button @click='logout'>退出登录</button>
+    <div>==========</div>
+    <i>data.js：</i>
+    <button @click='resetData'>重置数据</button>
+    <h3>既有局部mutations又有全局mutations时，获取全局mutations：</h3>
+    <button @click='add1'>全局数据1++</button>
+
 
     <button @click='addStudent'>点击添加一个85分的学生</button>
-    <button @click='logout'>退出登录</button>
-    <button @click='resetData'>重置数据</button>
     <button @click='logoutAndReset'>一键退出并重置数据</button>
   </div>
 </template>
@@ -101,10 +108,15 @@ export default {
   components: {},
 
   methods: {
-    // 局部mutations
-    ...mapMutations(['logout','resetData']),  // ...mapMutations({lout:'logout})
-    ...mapActions({  // 或者：  ...mapActions(['logoutAndReset']),
-      logoutAndReset:'logoutAndReset'  // 可重命名
+    // 局部mutations和全局mutations都可以通过以下方式引入
+    ...mapMutations(['add1','resetData','add2','logout','add3']),  // ...mapMutations({lout:'logout})
+    // 局部actions和全局actions都可以通过以下方式引入
+    ...mapActions({  // 或者：  ...mapActions(['loginAction','dataAction']),  如果有同名的，会全部执行
+      // 局部action
+      loginAction:'loginAction',  // 可重命名
+      dataAction:'dataAction',
+      // 全局action
+      logoutAndReset:'logoutAndReset'
     }),
     addStudent() {
       this.$store.state.data.scores.push({name:'钱七', score:85})

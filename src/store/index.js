@@ -22,11 +22,16 @@ var store = new vuex.Store({
     }
   },
   mutations:{
-    
-    
+    add1(state) {
+      return state.globalNum1++
+    }
   },
   actions:{
-    
+    logoutAndReset(context) {  // 或使用解构 {commit}  
+      console.log(context)
+      context.commit('logout')  // 使用解构后 commit('logout')
+      context.commit('resetData')
+    }
   }
 })
 // 如果操作多个页面的状态，则需要用到modules，如下:

@@ -21,13 +21,17 @@ const mutations = {
     state.token = ''
     state.cart = []
     state.login = false
+  },
+  add3(state) {
+    return state.num3 += 10
   }
 }
 // 对于模块内部的 action，局部状态通过 context.state 暴露出来，根节点状态则为 context.rootState
 const actions = {
-  logoutAndReset({state,commit ,rootState,getters}) {
-    console.log(state,rootState)
+  loginAction({state,getters,commit ,rootState}) {
+    console.log(state,getters,rootState)
     commit('logout')
+    commit('add3')
     /* commit({
       type:'resetData'
     })  */

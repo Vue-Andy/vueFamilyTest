@@ -33,11 +33,14 @@ const mutations = {
     state.isShow = true
     state.num1 = 35
     state.num2 = 25
+  },
+  add2(state) {
+    return state.num1+=20
   }
 }
 const actions = {
-  logoutAndReset({commit}) {
-    // commit('logout')
+  dataAction({commit}) {
+    commit('add2')
     commit({
       type:'resetData'
     }) 
