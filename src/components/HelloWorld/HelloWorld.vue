@@ -27,6 +27,9 @@
       <son2></son2>
     </div>
     <button @click='changeIsShow'>修改isShow</button>
+    <div v-color-green>this text should be green</div>
+    <div>{{500 | FTY}}</div>
+    <div>{{1.25 | YTF}}</div>
   </div>
 </template>
 

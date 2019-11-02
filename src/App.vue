@@ -5,9 +5,6 @@
       <keep-alive>
         <router-view />
       </keep-alive>
-      <div class="inner">
-        <h4 v-title>我是APP.vue里router-view的兄弟元素</h4>
-      </div>
     </div>
     <footer class='cf'>Footer</footer>
   </div>
@@ -51,12 +48,6 @@ export default {
   height:100%;
   padding:60px 0 30px 0;    
   box-sizing: border-box;
-}
-.inner {
-  width: 50%;
-  text-align: center;
-  float: left;
-  background: darkgray;
 }
 .desc{
   color:#999;

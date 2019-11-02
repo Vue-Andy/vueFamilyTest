@@ -35,6 +35,10 @@ Vue.use(VueResource)
   }                               也就不用import引入store了
 }) */
 
+// vue中插件的使用
+import pzhUi from './plugins/pzh-ui'
+Vue.use(pzhUi)
+
 // 此处定义全局自定义指令
 Vue.directive('title',{
   inserted(el){
