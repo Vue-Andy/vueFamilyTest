@@ -1,7 +1,7 @@
 <template>
   <div class="hello bs fl">
     <div class='title' v-title>HelloWorld</div>
-    <div class="desc">此组件只总结跳转的方式</div>
+    <div class="desc">此组件只总结跳转和传参的方式</div>
     <div class="left">
       <div class="link">
         方法跳转 - path配query<button @click='goChina1'>HelloChina</button>

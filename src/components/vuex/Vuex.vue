@@ -1,50 +1,58 @@
 <template>
-  <div>
+  <div class='container'>
     <div v-title>vuex 组件</div>
-    <div class="desc">此组件总结state和getter</div>
-    <h3>既有局部状态又有全局状态时，获取局部状态：</h3>
-    <i>data.js：</i>
-    <div>{{globalData}}--{{isShow}}--{{totalNum}}</div>
-    <div>==========</div>
-    <div>
-      <i>login.js：</i>
-      <div>{{username}}</div>
-      <div>{{token ? token : '退出登录后就没有token了'}}</div>
-      <div>{{cart[0] ? cart[0].cargoName : '购物车空空如也'}}</div>
-      <div>isLogin:{{login?'yes':'no'}}</div>
+    <div class="desc">此组件总结vuex相关知识，包括单文件store和分离出modules,mutations...</div>
+    <div class="boxItem">
+      <h3>既有局部状态又有全局状态时，获取局部状态：</h3>
+      <i>data.js：</i>
+      <div>{{globalData}}--{{isShow}}--{{totalNum}}</div>
+      <div>==========</div>
+      <div>
+        <i>login.js：</i>
+        <div>{{username}}</div>
+        <div>{{token ? token : '退出登录后就没有token了'}}</div>
+        <div>{{cart[0] ? cart[0].cargoName : '购物车空空如也'}}</div>
+        <div>isLogin:{{login?'yes':'no'}}</div>
+      </div>
+      <h3>既有局部状态又有全局状态时，获取全局状态：</h3>
+      <div>全局状态:{{globalNum1}}</div>
     </div>
-    <h3>既有局部状态又有全局状态时，获取全局状态：</h3>
-    <div>全局状态:{{globalNum1}}</div>
-
-    <hr><hr><hr>
-
-    <h3>既有局部getters又有全局getters时，获取局部getters：</h3>
-    <i>data.js：</i>
-    <ul>
-      <li v-for='(item,index) in getPassedScore' :key='index'>{{item.name}}--{{item.score}}</li>
-    </ul>
-    <div>总及格人数为：{{passedStudentsCount}}</div>
-    <div>超过80分的人数为：{{passed80Count}}</div>
-    <div>超过90分的人数为：{{passed90Count}}</div>
-    <div>==========</div>
-    <i>login.js：</i>
-    <div>{{getLoginNumTotal}}</div>
-    <h3>既有局部getters又有全局getters时，获取全局getters：</h3>
-    <div>{{mergeGlobalNum}}</div>
-
-    <hr><hr><hr>
-    <h3>既有局部mutations又有全局mutations时，获取局部mutations：</h3>
-    <i>login.js：</i>
-    <button @click='logout'>退出登录</button>
-    <div>==========</div>
-    <i>data.js：</i>
-    <button @click='resetData'>重置数据</button>
-    <h3>既有局部mutations又有全局mutations时，获取全局mutations：</h3>
-    <button @click='add1'>全局数据1++</button>
-
-
+    <div class="boxItem">
+      <h3>既有局部getters又有全局getters时，获取局部getters：</h3>
+      <i>data.js：</i>
+      <ul>
+        <li v-for='(item,index) in getPassedScore' :key='index'>{{item.name}}--{{item.score}}</li>
+      </ul>
+      <div>总及格人数为：{{passedStudentsCount}}</div>
+      <div>超过80分的人数为：{{passed80Count}}</div>
+      <div>超过90分的人数为：{{passed90Count}}</div>
+      <div>==========</div>
+      <i>login.js：</i>
+      <div>num3+num4:{{getLoginNumTotal}}</div>
+      <h3>既有局部getters又有全局getters时，获取全局getters：</h3>
+      <div>{{mergeGlobalNum}}</div>
+    </div>
+    <div class="boxItem">
+      <h3>既有局部mutations又有全局mutations时，获取局部mutations：</h3>
+      <i>login.js：</i>
+      <button @click='logout'>退出登录</button>
+      <div>==========</div>
+      <i>data.js：</i>
+      <button @click='resetData'>重置数据</button>
+      <h3>既有局部mutations又有全局mutations时，获取全局mutations：</h3>
+      <button @click='add1'>全局数据1++</button>
+    </div>
+    <div class="boxItem">
+      <h3>既有局部actions又有全局actions时，获取局部actions：</h3>
+      <i>login.js：</i>
+      <button @click='loginAction'>退出登录并num3+=10</button>
+      <div>==========</div>
+      <i>data.js：</i>
+      <button @click='dataAction'>重置数据并num1+=20</button>
+      <h3>既有局部actions又有全局actions时，获取全局actions：</h3>
+      <button @click='logoutAndReset'>一键触发loginAction和dataAction</button>
+    </div>
     <button @click='addStudent'>点击添加一个85分的学生</button>
-    <button @click='logoutAndReset'>一键退出并重置数据</button>
   </div>
 </template>
 
@@ -134,4 +142,11 @@ export default {
 </script>
 
 <style scoped>
+  div.boxItem{
+    float:left;
+    width:50%;
+    height:300px;
+    border:1px solid #333;
+    box-sizing: border-box;
+  }
 </style>

@@ -2,7 +2,9 @@
   <div id="app">
     <headerCom></headerCom>
     <div class="outer">
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
       <div class="inner">
         <h4 v-title>我是APP.vue里router-view的兄弟元素</h4>
       </div>
@@ -37,7 +39,6 @@ export default {
 #app {
   width: 100%;
   height: 100vh;
-  overflow-y: scroll;
   background: #ddd;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -48,7 +49,8 @@ export default {
   width: 100%;
   border-top: 1px solid #333; /* overflow:hidden; 清除浮动的方式之一  zoom:1;兼容IE6*/
   height:100%;
-  padding:60px 0 30px 0;
+  padding:60px 0 30px 0;    
+  box-sizing: border-box;
 }
 .inner {
   width: 50%;
